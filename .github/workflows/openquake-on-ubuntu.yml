@@ -1,0 +1,67 @@
+name: OpenQuake on Ubuntu demo
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  openquake-on-ubuntu-demo:
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - name: Checkout secret OpenQuake-GitHub-Actions-demo repo
+        uses: actions/checkout@v2
+        with:
+          repository: OpenDRR/OpenQuake-GitHub-Actions-demo
+          token: ${{ secrets.MY_PAT }}
+
+      - name: Cache OpenQuake
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ~/openquake
+          key: ${{ runner.os }}-OpenQuake
+
+      - name: Exploration
+        run: |
+          set -x
+          ls -l
+          df -h
+          whoami
+          free -h
+
+      - name: Install OpenQuake
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -x
+          curl https://raw.githubusercontent.com/gem/oq-engine/master/install.py -O
+          python3 install.py user
+
+      - name: Install GNU time
+        run: |
+          sudo stdbuf -oL apt-get update
+          sudo stdbuf -oL apt-get install -y eatmydata time
+
+      - name: Check size of OpenQuake installation
+        run: |
+          set -x
+          pwd
+          du -csh *
+          du -csh ~/*
+
+      - name: Run OpenQuake with AreaSourceClassicalPSHA demo
+        run: |
+          source ~/openquake/bin/activate
+          /usr/bin/time -v stdbuf -oL ~/openquake/bin/oq engine --run ~/openquake/demos/hazard/AreaSourceClassicalPSHA/job.ini
+
+      - name: Run OpenQuake with data provided by Tiegan
+        run: |
+          source ~/openquake/bin/activate
+          cp -av CanadaSHM6/OpenQuake_model_files/gmms/gsim/* ~/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/
+          /usr/bin/time -v stdbuf -oL ~/openquake/bin/oq engine --run thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini
