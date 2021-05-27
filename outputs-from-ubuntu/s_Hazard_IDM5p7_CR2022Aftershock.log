@@ -1,0 +1,52 @@
+/home/runner/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/base.py:347: ExperimentalWarning: CanadaSHM6_ActiveCrust_BooreEtAl2014 is experimental and may change in future versions - the user is liable for their application
+  warnings.warn(msg, ExperimentalWarning)
+[2021-05-27 15:46:33 #2 INFO] runner running /home/runner/work/OpenQuake-GitHub-Actions-demo-public/OpenQuake-GitHub-Actions-demo-public/private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini [--hc=None]
+[2021-05-27 15:46:33 #2 INFO] Using engine version 3.11.3
+[2021-05-27 15:46:34 #2 WARNING] Using 2 cores on fv-az118-288
+[2021-05-27 15:46:34 #2 INFO] Checksum of the input files: 3237861233
+[2021-05-27 15:46:34 #2 INFO] Reading the risk model if present
+[2021-05-27 15:46:34 #2 INFO] Extracting the hazard sites from the site model
+[2021-05-27 15:46:35 #2 INFO] Read N=136702 hazard sites and L=8 hazard levels
+[2021-05-27 15:46:36 #2 INFO] gzipping the input files
+[2021-05-27 15:46:36 #2 INFO] minimum_intensity={}
+[2021-05-27 15:46:37 #2 INFO] There are 4 realization(s)
+[2021-05-27 15:46:37 #2 INFO] Reordering the ruptures and storing the events
+[2021-05-27 15:46:37 #2 INFO] Associating event_id -> rlz_id for 4 events and 1 ruptures
+[2021-05-27 15:46:37 #2 INFO] Reading 1 ruptures
+[2021-05-27 15:46:40 #2 INFO] compute_gmfs 100% [1 submitted, 0 queued]
+[2021-05-27 15:46:40 #2 INFO] Received {'gmfdata': '7.39 MB', 'sig_eps': '989 B', 'times': '317 B', 'hcurves': '5 B'} in 3 seconds
+[2021-05-27 15:46:40 #2 INFO] Stored 6.2 MB of GMFs
+[2021-05-27 15:46:56 #2 INFO] Checking seed dependency
+[2021-05-27 15:46:56 #2 WARNING] Your results are expected to have a large dependency from ses_seed
+[2021-05-27 15:46:56 #2 INFO] Exposing the outputs to the database
+[2021-05-27 15:46:56 #2 INFO] Stored 26.36 MB on /home/runner/oqdata/calc_2.hdf5 in 22 seconds
+[2021-05-27 15:46:56 #2 INFO] Stopping the workers
+  id | name
+   6 | Events
+   7 | Full Report
+   8 | Ground Motion Fields
+   9 | Input Files
+  10 | Realizations
+	Command being timed: "stdbuf -oL eatmydata oq engine --run private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini"
+	User time (seconds): 24.45
+	System time (seconds): 0.50
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:25.06
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 262708
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 149979
+	Voluntary context switches: 404
+	Involuntary context switches: 526
+	Swaps: 0
+	File system inputs: 16
+	File system outputs: 81008
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
