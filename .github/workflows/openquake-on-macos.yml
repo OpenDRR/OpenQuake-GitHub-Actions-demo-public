@@ -12,12 +12,20 @@ on:
 jobs:
   openquake-on-macos-demo:
     runs-on: macos-latest
+    env:
+      TIME_RUN: gtime -v gstdbuf -oL
     if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
+      - name: Checkout self
+        uses: actions/checkout@v2
+        with:
+          path: main
+
       - name: Checkout secret OpenQuake-GitHub-Actions-demo repo
         uses: actions/checkout@v2
         with:
+          path: private
           repository: OpenDRR/OpenQuake-GitHub-Actions-demo
           token: ${{ secrets.MY_PAT }}
 
@@ -36,6 +44,7 @@ jobs:
       - name: Exploration
         run: |
           set -x
+          pwd
           ls -l
           df -h
           whoami
@@ -60,13 +69,46 @@ jobs:
           du -csh *
           du -csh ~/*
 
-      - name: Run OpenQuake with AreaSourceClassicalPSHA demo
+      - name: "OpenQuake: Run AreaSourceClassicalPSHA demo"
         run: |
           source ~/openquake/bin/activate
-          gtime -v stdbuf -oL ~/openquake/bin/oq engine --run ~/openquake/demos/hazard/AreaSourceClassicalPSHA/job.ini
+          $TIME_RUN oq engine --run ~/openquake/demos/hazard/AreaSourceClassicalPSHA/job.ini
 
-      - name: Run OpenQuake with data provided by Tiegan
+      - name: pip3 install tqdm (for weightHAZ.py)
         run: |
           source ~/openquake/bin/activate
-          cp -av CanadaSHM6/OpenQuake_model_files/gmms/gsim/* ~/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/
-          gtime -v gstdbuf -oL ~/openquake/bin/oq engine --run thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini
+          $TIME_RUN pip3 install tqdm
+
+      - name: "OpenQuake: Run Hazard calculation provided by Tiegan"
+        env:
+          JOBDIR: private/thobbs/scenario-catalogue/deterministic/initializations
+          # OUTDIR is hardcoded as "outputs" in weightHAZ.py.  Don't change!
+          OUTDIR: outputs
+          AVGHAZLOC: private/scenario-catalogue/scripts/weightHAZ.py
+          NAME: IDM5p7_CR2022Aftershock
+        run: |
+          source ~/openquake/bin/activate
+          cp -av private/CanadaSHM6/OpenQuake_model_files/gmms/gsim/CanadaSHM6_* ~/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/
+          # Based on OpenDRR/scenario-catalogue/scripts/run_OQStandard.sh
+          mkdir -p temp
+          mkdir -p "$OUTDIR"
+          echo "Outputs will be placed in $OUTDIR"
+          $TIME_RUN oq engine --run $JOBDIR/s_Hazard_${NAME}.ini 2>&1 | tee $OUTDIR/s_Hazard_${NAME}.log
+          $TIME_RUN oq export gmf_data -1 -e csv -d temp
+          CALCID=`basename temp/*gmf* .csv | awk -F'_' '{print $NF}'`
+          $TIME_RUN python3 $AVGHAZLOC $NAME $CALCID
+          SMSFILE="$OUTDIR/s_sitemesh_${NAME}_${CALCID}.csv"
+          mv temp/*sitemesh* ${SMSFILE}
+          rm -v temp/sigma_epsilon_* temp/*gmf*.csv
+
+      - name: Commit and push output files
+        run: |
+          mkdir -p main/outputs-from-macos
+          cp -av outputs/* main/outputs-from-macos/
+          cd main
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git pull
+          git add .
+          git commit -m "Save OpenQuake Hazard calculation output (macOS)"
+          git push
