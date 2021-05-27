@@ -2,6 +2,7 @@
 
 ![OpenQuake on Ubuntu demo badge](https://github.com/OpenDRR/OpenQuake-GitHub-Actions-demo-public/actions/workflows/openquake-on-ubuntu.yml/badge.svg)
 ![OpenQuake on macOS demo badge](https://github.com/OpenDRR/OpenQuake-GitHub-Actions-demo-public/actions/workflows/openquake-on-macos.yml/badge.svg)
+![OpenQuake in container demo badge](https://github.com/OpenDRR/OpenQuake-GitHub-Actions-demo-public/actions/workflows/openquake-in-container.yml/badge.svg)
 
 ## English
 
