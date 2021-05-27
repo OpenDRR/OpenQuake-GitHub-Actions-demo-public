@@ -1,0 +1,111 @@
+name: OpenQuake in container demo
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  openquake-in-container-demo:
+    runs-on: ubuntu-20.04
+    env:
+      # Note: GITHUB_WORKSPACE cannot be overridden here
+      HOME: /home/openquake
+      TIME_RUN: /usr/bin/time -v stdbuf -oL
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+    container:
+      # openquake/engine:3.11 has ~/.local but not /usr/src/oq-engine
+      # openquake/engine:nightly has /usr/src/oq-engine but not ~/.local
+      image: openquake/engine:nightly
+
+    steps:
+      - name: Fix permissions of GITHUB_WORKSPACE
+        run: |
+          echo "Note: GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\""
+          echo "Before:"
+          ls -ld "$GITHUB_WORKSPACE"
+          sudo chown openquake:openquake "$GITHUB_WORKSPACE"
+          echo "After:"
+          ls -ld "$GITHUB_WORKSPACE"
+
+      - name: Checkout self
+        uses: actions/checkout@v2
+        with:
+          path: main
+
+      - name: Checkout private OpenQuake-GitHub-Actions-demo repo
+        uses: actions/checkout@v2
+        with:
+          path: private
+          repository: OpenDRR/OpenQuake-GitHub-Actions-demo
+          token: ${{ secrets.MY_PAT }}
+
+      - name: Exploration
+        run: |
+          set -x
+          pwd
+          ls -l
+          df -h
+          whoami
+          free -h
+          cat /etc/os-release
+
+      - name: Install GNU time
+        run: |
+          # Only openquake/engine:nightly has sudo
+          sudo stdbuf -oL apt-get update
+          sudo stdbuf -oL apt-get install -y time
+
+      - name: Check size of OpenQuake installation
+        run: |
+          set -x
+          pwd
+          du -csh *
+          du -csh /opt/openquake
+          du -csh ~/.local/* || true
+          du -csh /usr/src/oq-engine || true
+
+      - name: "OpenQuake: Run AreaSourceClassicalPSHA demo"
+        run: |
+          $TIME_RUN oq engine --run /usr/src/oq-engine/demos/hazard/AreaSourceClassicalPSHA/job.ini
+
+      - name: pip3 install tqdm (for weightHAZ.py)
+        run: |
+          $TIME_RUN sudo bash -c "source /opt/openquake/bin/activate && pip3 install tqdm"
+
+      - name: "OpenQuake: Run Hazard calculation provided by Tiegan"
+        env:
+          JOBDIR: private/thobbs/scenario-catalogue/deterministic/initializations
+          # OUTDIR is hardcoded as "outputs" in weightHAZ.py.  Don't change!
+          OUTDIR: outputs
+          AVGHAZLOC: private/scenario-catalogue/scripts/weightHAZ.py
+          NAME: IDM5p7_CR2022Aftershock
+        run: |
+          sudo cp -av private/CanadaSHM6/OpenQuake_model_files/gmms/gsim/CanadaSHM6_* /usr/src/oq-engine/openquake/hazardlib/gsim/
+          # Based on OpenDRR/scenario-catalogue/scripts/run_OQStandard.sh
+          mkdir -p temp
+          mkdir -p "$OUTDIR"
+          echo "Outputs will be placed in $OUTDIR"
+          $TIME_RUN oq engine --run $JOBDIR/s_Hazard_${NAME}.ini 2>&1 | tee $OUTDIR/s_Hazard_${NAME}.log
+          $TIME_RUN oq export gmf_data -1 -e csv -d temp
+          CALCID=`basename temp/*gmf* .csv | awk -F'_' '{print $NF}'`
+          $TIME_RUN python3 $AVGHAZLOC $NAME $CALCID
+          SMSFILE="$OUTDIR/s_sitemesh_${NAME}_${CALCID}.csv"
+          mv temp/*sitemesh* ${SMSFILE}
+          rm -v temp/sigma_epsilon_* temp/*gmf*.csv
+
+      - name: Commit and push output files
+        run: |
+          mkdir -p main/outputs-from-container
+          cp -av outputs/* main/outputs-from-container/
+          cd main
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git pull
+          git add .
+          git commit -m "Save OpenQuake Hazard calculation output (container)"
+          git push
