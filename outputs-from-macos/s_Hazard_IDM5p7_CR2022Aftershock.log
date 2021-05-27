@@ -1,0 +1,52 @@
+/Users/runner/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/base.py:347: ExperimentalWarning: CanadaSHM6_ActiveCrust_BooreEtAl2014 is experimental and may change in future versions - the user is liable for their application
+  warnings.warn(msg, ExperimentalWarning)
+[2021-05-27 15:52:01 #2 INFO] runner running /Users/runner/work/OpenQuake-GitHub-Actions-demo-public/OpenQuake-GitHub-Actions-demo-public/private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini [--hc=None]
+[2021-05-27 15:52:01 #2 INFO] Using engine version 3.11.3
+[2021-05-27 15:52:02 #2 WARNING] Using 3 cores on Mac-1622123119123.local
+[2021-05-27 15:52:02 #2 INFO] Checksum of the input files: 3237861233
+[2021-05-27 15:52:02 #2 INFO] Reading the risk model if present
+[2021-05-27 15:52:02 #2 INFO] Extracting the hazard sites from the site model
+[2021-05-27 15:52:04 #2 INFO] Read N=136702 hazard sites and L=8 hazard levels
+[2021-05-27 15:52:04 #2 INFO] gzipping the input files
+[2021-05-27 15:52:05 #2 INFO] minimum_intensity={}
+[2021-05-27 15:52:05 #2 INFO] There are 4 realization(s)
+[2021-05-27 15:52:05 #2 INFO] Reordering the ruptures and storing the events
+[2021-05-27 15:52:05 #2 INFO] Associating event_id -> rlz_id for 4 events and 1 ruptures
+[2021-05-27 15:52:05 #2 INFO] Reading 1 ruptures
+[2021-05-27 15:52:11 #2 INFO] compute_gmfs 100% [1 submitted, 0 queued]
+[2021-05-27 15:52:11 #2 INFO] Received {'gmfdata': '7.39 MB', 'sig_eps': '989 B', 'times': '317 B', 'hcurves': '5 B'} in 5 seconds
+[2021-05-27 15:52:11 #2 INFO] Stored 6.2 MB of GMFs
+[2021-05-27 15:52:27 #2 INFO] Checking seed dependency
+[2021-05-27 15:52:28 #2 WARNING] Your results are expected to have a large dependency from ses_seed
+[2021-05-27 15:52:28 #2 INFO] Exposing the outputs to the database
+[2021-05-27 15:52:28 #2 INFO] Stored 26.36 MB on /Users/runner/oqdata/calc_2.hdf5 in 25 seconds
+[2021-05-27 15:52:28 #2 INFO] Stopping the workers
+  id | name
+   6 | Events
+   7 | Full Report
+   8 | Ground Motion Fields
+   9 | Input Files
+  10 | Realizations
+	Command being timed: "gstdbuf -oL oq engine --run private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini"
+	User time (seconds): 26.38
+	System time (seconds): 1.26
+	Percent of CPU this job got: 98%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:28.08
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 248844
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 248210
+	Voluntary context switches: 63
+	Involuntary context switches: 34469
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 611
+	Socket messages received: 652
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
