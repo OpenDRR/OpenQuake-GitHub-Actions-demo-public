@@ -1,26 +1,26 @@
 /home/runner/openquake/lib/python3.8/site-packages/openquake/hazardlib/gsim/base.py:347: ExperimentalWarning: CanadaSHM6_ActiveCrust_BooreEtAl2014 is experimental and may change in future versions - the user is liable for their application
   warnings.warn(msg, ExperimentalWarning)
-[2021-05-27 21:30:49 #2 INFO] runner running /home/runner/work/OpenQuake-GitHub-Actions-demo-public/OpenQuake-GitHub-Actions-demo-public/private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini [--hc=None]
-[2021-05-27 21:30:49 #2 INFO] Using engine version 3.11.3
-[2021-05-27 21:30:50 #2 WARNING] Using 2 cores on fv-az90-937
-[2021-05-27 21:30:50 #2 INFO] Checksum of the input files: 3237861233
-[2021-05-27 21:30:50 #2 INFO] Reading the risk model if present
-[2021-05-27 21:30:50 #2 INFO] Extracting the hazard sites from the site model
-[2021-05-27 21:30:51 #2 INFO] Read N=136702 hazard sites and L=8 hazard levels
-[2021-05-27 21:30:52 #2 INFO] gzipping the input files
-[2021-05-27 21:30:53 #2 INFO] minimum_intensity={}
-[2021-05-27 21:30:53 #2 INFO] There are 4 realization(s)
-[2021-05-27 21:30:53 #2 INFO] Reordering the ruptures and storing the events
-[2021-05-27 21:30:53 #2 INFO] Associating event_id -> rlz_id for 4 events and 1 ruptures
-[2021-05-27 21:30:53 #2 INFO] Reading 1 ruptures
-[2021-05-27 21:30:56 #2 INFO] compute_gmfs 100% [1 submitted, 0 queued]
-[2021-05-27 21:30:56 #2 INFO] Received {'gmfdata': '7.39 MB', 'sig_eps': '989 B', 'times': '317 B', 'hcurves': '5 B'} in 3 seconds
-[2021-05-27 21:30:56 #2 INFO] Stored 6.2 MB of GMFs
-[2021-05-27 21:31:12 #2 INFO] Checking seed dependency
-[2021-05-27 21:31:12 #2 WARNING] Your results are expected to have a large dependency from ses_seed
-[2021-05-27 21:31:12 #2 INFO] Exposing the outputs to the database
-[2021-05-27 21:31:12 #2 INFO] Stored 26.36 MB on /home/runner/oqdata/calc_2.hdf5 in 22 seconds
-[2021-05-27 21:31:12 #2 INFO] Stopping the workers
+[2021-06-23 13:54:12 #2 INFO] runner running /home/runner/work/OpenQuake-GitHub-Actions-demo-public/OpenQuake-GitHub-Actions-demo-public/private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini [--hc=None]
+[2021-06-23 13:54:12 #2 INFO] Using engine version 3.11.3
+[2021-06-23 13:54:13 #2 WARNING] Using 2 cores on fv-az93-163
+[2021-06-23 13:54:13 #2 INFO] Checksum of the input files: 3237861233
+[2021-06-23 13:54:13 #2 INFO] Reading the risk model if present
+[2021-06-23 13:54:13 #2 INFO] Extracting the hazard sites from the site model
+[2021-06-23 13:54:14 #2 INFO] Read N=136702 hazard sites and L=8 hazard levels
+[2021-06-23 13:54:14 #2 INFO] gzipping the input files
+[2021-06-23 13:54:15 #2 INFO] minimum_intensity={}
+[2021-06-23 13:54:15 #2 INFO] There are 4 realization(s)
+[2021-06-23 13:54:15 #2 INFO] Reordering the ruptures and storing the events
+[2021-06-23 13:54:15 #2 INFO] Associating event_id -> rlz_id for 4 events and 1 ruptures
+[2021-06-23 13:54:15 #2 INFO] Reading 1 ruptures
+[2021-06-23 13:54:18 #2 INFO] compute_gmfs 100% [1 submitted, 0 queued]
+[2021-06-23 13:54:18 #2 INFO] Received {'gmfdata': '7.39 MB', 'sig_eps': '989 B', 'times': '317 B', 'hcurves': '5 B'} in 2 seconds
+[2021-06-23 13:54:18 #2 INFO] Stored 6.2 MB of GMFs
+[2021-06-23 13:54:32 #2 INFO] Checking seed dependency
+[2021-06-23 13:54:32 #2 WARNING] Your results are expected to have a large dependency from ses_seed
+[2021-06-23 13:54:32 #2 INFO] Exposing the outputs to the database
+[2021-06-23 13:54:32 #2 INFO] Stored 26.36 MB on /home/runner/oqdata/calc_2.hdf5 in 18 seconds
+[2021-06-23 13:54:32 #2 INFO] Stopping the workers
   id | name
    6 | Events
    7 | Full Report
@@ -28,20 +28,20 @@
    9 | Input Files
   10 | Realizations
 	Command being timed: "stdbuf -oL eatmydata oq engine --run private/thobbs/scenario-catalogue/deterministic/initializations/s_Hazard_IDM5p7_CR2022Aftershock.ini"
-	User time (seconds): 23.77
-	System time (seconds): 0.51
-	Percent of CPU this job got: 100%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:24.17
+	User time (seconds): 20.10
+	System time (seconds): 0.57
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:20.71
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 262624
+	Maximum resident set size (kbytes): 259888
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 154577
-	Voluntary context switches: 403
-	Involuntary context switches: 495
+	Minor (reclaiming a frame) page faults: 158112
+	Voluntary context switches: 391
+	Involuntary context switches: 516
 	Swaps: 0
 	File system inputs: 16
 	File system outputs: 81008
