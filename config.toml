@@ -1,0 +1,13 @@
+baseURL = "https://opendrr.github.com/OpenQuake-GitHub-Actions-demo-public/"
+languageCode = "en-ca"
+title = "Presentation"
+theme = "reveal-hugo"
+enableEmoji = true
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputFormats.Reveal]
+baseName = "index"
+mediaType = "text/html"
+isHTML = true
